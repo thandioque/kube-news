@@ -1,0 +1,83 @@
+# The PostgreSQL Database Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-deployment
+  template:
+    metadata:
+      labels:
+        app: postgres-deployment
+    spec: 
+      containers:
+        - name: postgres
+          image: postgres:14.4
+          ports:
+            - containerPort: 5432
+          env: 
+          - name: "POSTGRES_DB"
+            value: "postdb"
+          - name: "POSTGRES_USER"
+            value: "postuser"
+          - name: "POSTGRES_PASSWORD"
+            value: "postpwd"
+---
+# The PostgreSQL Database Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  selector:
+    app: postgres-deployment
+  ports:
+  - port: 5432
+  type: ClusterIP 
+---
+# The Kube-News Web Application Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-news-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kube-news-app-deployment
+  template:
+    metadata:
+      labels:
+        app: kube-news-app-deployment
+    spec: 
+      containers:
+      - name: kube-news-app
+        image: thandi13/kube-news:v1
+        ports:
+          - containerPort: 8080
+        env: 
+          - name: "DB_DATABASE"
+            value: "postdb"
+          - name: "DB_USERNAME"
+            value: "postuser"
+          - name: "DB_PASSWORD"
+            value: "postpwd"
+          - name: "DB_HOST"
+            value: "postgres-service"
+---
+# The Kube-News Web Application Service 
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-news-app-service
+spec:
+  selector:
+    app: kube-news-app-deployment
+  ports:
+  - port: 80
+    targetPort: 8080
+    nodePort: 30000 
+  type: NodePort
