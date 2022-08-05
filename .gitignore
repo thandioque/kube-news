@@ -104,3 +104,13 @@ node_modules/
 # .tern-port
 
 *.Identifier
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Exclude all .tfvars files
+*.tfvars
