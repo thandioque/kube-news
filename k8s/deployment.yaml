@@ -52,6 +52,10 @@ spec:
     metadata:
       labels:
         app: kube-news-app-deployment
+      annotations: 
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
     spec: 
       containers:
       - name: kube-news-app
