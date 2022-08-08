@@ -45,6 +45,7 @@ jobs:
       - name: Deploy to Kubernetes test cluster
         uses: Azure/k8s-deploy@v4.3
         with: 
+          namespace: kube-news
           images: thandi13/kube-news:v-GA-${{ github.run_number }}
           manifests: |
             k8s/deployment.yaml
