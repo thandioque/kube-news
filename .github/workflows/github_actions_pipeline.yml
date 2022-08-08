@@ -3,9 +3,9 @@ name: CI - CD
 
 on:
   push:
-    branches: [ "feature/github_actions_pipeline" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "feature/github_actions_pipeline" ]
+    branches: [ "main" ]
 
   workflow_dispatch:
 
