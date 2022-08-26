@@ -4,10 +4,9 @@ pipeline {
     stages {
         stage ('Build Image ') {
             steps {
-                pwd
-                // script {
-                //     dockerapp = docker.build ("thandi13/kube-news:${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
-                // }
+                script {
+                    dockerapp = docker.build ("thandi13/kube-news:${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
+                }
             }
         }
     }
